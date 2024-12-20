@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Backend service
+  backend:
+    build:
+      context: ./Backend-Course-Blogging-Application-main
+      dockerfile: Dockerfile  # Ensure your backend Dockerfile is in this directory
+    image: neww-backend-image
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "9092:9092"
+    networks:
+      - myapp-network
+    restart: unless-stopped
+
+  # Frontend service
+  frontend:
+    build:
+      context: ./bloging-app
+      dockerfile: Dockerfile  # Ensure your frontend Dockerfile is in this directory
+    image: neww-frontend-image
+    ports:
+      - "9091:9091"
+    networks:
+      - myapp-network
+    restart: unless-stopped
+
+networks:
+  myapp-network:
+    driver: bridge
+
+# Build and start the containers using Docker Compos

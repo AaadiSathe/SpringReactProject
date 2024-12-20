@@ -1,6 +1,6 @@
 
 services:
-  # Backend service
+  
   backend:
     build:
       context: ./Backend-Course-Blogging-Application-main

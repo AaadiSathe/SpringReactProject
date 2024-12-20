@@ -5,7 +5,7 @@ services:
   backend:
     build:
       context: ./Backend-Course-Blogging-Application-main
-      dockerfile: Dockerfile  # Ensure your backend Dockerfile is in this directory
+      dockerfile: Dockerfile
     image: neww-backend-image
     environment:
       MYSQL_USER: ${MYSQL_USER}
@@ -23,7 +23,7 @@ services:
   frontend:
     build:
       context: ./bloging-app
-      dockerfile: Dockerfile  # Ensure your frontend Dockerfile is in this directory
+      dockerfile: Dockerfile
     image: neww-frontend-image
     ports:
       - "9091:9091"
@@ -34,5 +34,3 @@ services:
 networks:
   myapp-network:
     driver: bridge
-
-# Build and start the containers using Docker Compos

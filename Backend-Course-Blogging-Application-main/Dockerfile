@@ -1,39 +1,13 @@
-# Stage 1: Build the application using a Maven image 
-
-FROM maven:3.8.5-openjdk-17-slim AS build
-
-
-WORKDIR /app
-
-
-COPY pom.xml .
-
-
-RUN mvn dependency:go-offline
-
-
-COPY src /app/src
-
-
-RUN mvn clean package -DskipTests
-
-#Stage 2
 FROM openjdk:17-jdk-slim
 
-
+# Set the working directory in the container
 WORKDIR /app
 
+# Copy the compiled JAR file from your local system into the container
+COPY target/blog-app-apis-0.0.1-SNAPSHOT.jar blog-app-apis.jar
 
-RUN useradd -m appuser
-USER appuser
-
-
-COPY --from=build /app/target/blog-app-apis-0.0.1-SNAPSHOT.jar blog-app-apis.jar
-
-
+# Expose the port that the backend runs on (port 9092 in your case)
 EXPOSE 9092
 
-
-ENV JAVA_OPTS="-Xms512m -Xmx1g"
-
-CMD ["java", "$JAVA_OPTS", "-jar", "blog-app-apis.jar"]
+# Command to run the backend when the container starts
+CMD ["java", "-jar", "blog-app-apis.jar"]
